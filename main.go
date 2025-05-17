@@ -1,26 +1,56 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"log"
 )
 
-type Truck struct {
+type Car struct {
 	id string
 }
 
-func processTruck(truck Truck) {
-	fmt.Printf("Processing truck: %s\n", truck.id)
+func (c *Car) PreCleaning() error {
+	return errors.New("not implemented")
 }
 
-func mian() {
-	trucks := []Truck{
-		{id: "Truck-1"},
-		{id: "Truck-2"},
-		{id: "Truck-3"},
+func (c *Car) Washing() error {
+	return errors.New("not implemented")
+}
+
+// processCar handles all the washing steps.
+
+func processCar(car Car) error {
+	fmt.Printf("Processing car: %s\n", car.id)
+
+	if err := car.PreCleaning(); err != nil {
+		return fmt.Errorf("Error pre-cleaning car: %w", err)
 	}
 
-	for _, truck := range trucks {
-		fmt.Printf("Truck %s arrived.\n", truck.id)
-		processTruck(truck)
+	if err := car.Washing(); err != nil {
+		return fmt.Errorf("Error washing car: %w", err)
+	}
+
+	return nil
+}
+
+func main() {
+	cars := []Car{
+		{id: "Car A"},
+		{id: "Car B"},
+		{id: "Car C"},
+	}
+
+	for _, car := range cars {
+		fmt.Printf("Car %s arrived.\n", car.id)
+
+		/*err := processCar(car)
+		if err != nil {
+			log.Fatalf("Error processing car: %s", err)
+		}*/
+
+		if err := processCar(car); err != nil {
+			log.Fatalf("Error processing car: %s", err)
+		}
 	}
 }
