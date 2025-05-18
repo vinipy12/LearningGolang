@@ -11,7 +11,8 @@ type Vehicle interface {
 }
 
 type Car struct {
-	id string
+	id    string
+	clean bool
 }
 
 func (c *Car) PreCleaning() error {
@@ -21,11 +22,13 @@ func (c *Car) PreCleaning() error {
 
 func (c *Car) Washing() error {
 	fmt.Printf("Soaping, rinsing and drying exterior...\n")
+	c.clean = true
 	return nil
 }
 
 type Motocycle struct {
-	id string
+	id    string
+	clean bool
 }
 
 func (m *Motocycle) PreCleaning() error {
@@ -35,6 +38,7 @@ func (m *Motocycle) PreCleaning() error {
 
 func (m *Motocycle) Washing() error {
 	fmt.Printf("Jet spraing, soap cleaning and polishing crome...\n")
+	m.clean = true
 	return nil
 }
 
