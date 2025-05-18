@@ -1,56 +1,67 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 )
+
+type Vehicle interface {
+	PreCleaning() error
+	Washing() error
+}
 
 type Car struct {
 	id string
 }
 
 func (c *Car) PreCleaning() error {
-	return errors.New("not implemented")
+	fmt.Printf("Vacuuming interior and removing trash...\n")
+	return nil
 }
 
 func (c *Car) Washing() error {
-	return errors.New("not implemented")
+	fmt.Printf("Soaping, rinsing and drying exterior...\n")
+	return nil
 }
 
-// processCar handles all the washing steps.
+type Motocycle struct {
+	id string
+}
 
-func processCar(car Car) error {
-	fmt.Printf("Processing car: %s\n", car.id)
+func (m *Motocycle) PreCleaning() error {
+	fmt.Printf("Covering exhaust and removing accessories...\n")
+	return nil
+}
 
-	if err := car.PreCleaning(); err != nil {
-		return fmt.Errorf("Error pre-cleaning car: %w", err)
+func (m *Motocycle) Washing() error {
+	fmt.Printf("Jet spraing, soap cleaning and polishing crome...\n")
+	return nil
+}
+
+func washVehicle(vehcile Vehicle) error {
+
+	if err := vehcile.PreCleaning(); err != nil {
+		return fmt.Errorf("Error pre-cleaning vehicle: %w", err)
 	}
 
-	if err := car.Washing(); err != nil {
-		return fmt.Errorf("Error washing car: %w", err)
+	if err := vehcile.Washing(); err != nil {
+		return fmt.Errorf("Error washing vehicle: %w", err)
 	}
 
 	return nil
 }
 
 func main() {
-	cars := []Car{
-		{id: "Car A"},
-		{id: "Car B"},
-		{id: "Car C"},
+	car := &Car{id: "1"}
+	motocycle := &Motocycle{id: "2"}
+
+	err := washVehicle(car)
+	if err != nil {
+		log.Fatalf("error washing vehcile %s", car.id)
 	}
 
-	for _, car := range cars {
-		fmt.Printf("Car %s arrived.\n", car.id)
-
-		/*err := processCar(car)
-		if err != nil {
-			log.Fatalf("Error processing car: %s", err)
-		}*/
-
-		if err := processCar(car); err != nil {
-			log.Fatalf("Error processing car: %s", err)
-		}
+	err = washVehicle(motocycle)
+	if err != nil {
+		log.Fatalf("error washing vehicle %s", motocycle.id)
 	}
 }
