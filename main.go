@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 type Vehicle interface {
@@ -42,30 +41,32 @@ func (m *Motocycle) Washing() error {
 	return nil
 }
 
-func washVehicle(vehcile Vehicle) error {
+func washVehicle(vehicle Vehicle) error {
 
-	if err := vehcile.PreCleaning(); err != nil {
+	if err := vehicle.PreCleaning(); err != nil {
 		return fmt.Errorf("Error pre-cleaning vehicle: %w", err)
 	}
 
-	if err := vehcile.Washing(); err != nil {
+	if err := vehicle.Washing(); err != nil {
 		return fmt.Errorf("Error washing vehicle: %w", err)
 	}
 
 	return nil
 }
 
+func washVehicleConc(vehicles []Vehicle) error {
+	return fmt.Errorf("not implemented")
+}
+
 func main() {
-	car := &Car{id: "1"}
-	motocycle := &Motocycle{id: "2"}
 
-	err := washVehicle(car)
-	if err != nil {
-		log.Fatalf("error washing vehcile %s", car.id)
+	vehicles := []Vehicle{
+		&Car{id: "1"},
+		&Motocycle{id: "2"},
+		&Car{id: "3"},
+		&Motocycle{id: "4"},
+		&Car{id: "5"},
+		&Motocycle{id: "6"},
 	}
 
-	err = washVehicle(motocycle)
-	if err != nil {
-		log.Fatalf("error washing vehicle %s", motocycle.id)
-	}
 }
